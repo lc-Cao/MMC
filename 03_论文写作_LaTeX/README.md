@@ -7,12 +7,24 @@
 
 | 文件 | 用途 |
 |---|---|
+| `CUMCM论文模板_可编译/` | **完整可编译模板**：官方风格 cumcmthesis（2026 适配，含 AI 使用声明），example.tex 为主文件，example.pdf 为预览效果 |
 | `README.md`（本文件） | LaTeX 模板使用流程、文件结构、各章写作要点、赛前必验证项 |
 | `摘要写作模板与自检.md` | 摘要五段式模板、逐问题写法、规范用词、关键词规范、10 条自检（讲义第 10 章） |
 | `tex高频代码与章节骨架.tex` | 复制即用的三线表/图片/公式代码 + 八章骨架模板 |
 | `常见编译错误排错.md` | 十大高频编译错误与快速修复（讲义 8.5） |
 | `参考文献_GB7714.md` | GB/T 7714 引用格式 + BibTeX 用法 |
 | `Word备用_格式速查.md` | LaTeX 崩了/学校要 Word 时用（讲义第 9 章浓缩） |
+
+## 怎么用「CUMCM论文模板_可编译」
+
+1. **把整个文件夹复制一份**作为本次比赛的工作副本（保留干净模板），例如复制到 `09_赛中工作区/论文工作副本`；
+2. 打开 `example.tex`，改三处即可开写：
+   - `\title{...}` 题目；
+   - `\begin{abstract}...\end{abstract}`（按 `摘要写作模板与自检.md` 五段式写）；
+   - `\keywords{...}`；
+3. 提交电子版时可去封面：`\documentclass[withoutpreface,bwprint]{cumcmthesis}`（本模板默认即此选项）；
+4. **编译：XeLaTeX 编译两遍**（`xelatex example.tex` ×2）。本机未装 TeX，可在 Overleaf 上传本文件夹编译，或安装 TeX Live；
+5. 模板源自开源项目 latexstudio/CUMCMThesis（MIT），已含 2026 年"AI 工具使用声明"提示，请按官方要求填写。
 
 ## LaTeX 5 步上手（讲义 8.2）
 
