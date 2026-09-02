@@ -1,83 +1,96 @@
+# CUMCM
 
-## 全国大学生数学建模竞赛 LaTeX 论文模板  
+- LaTeX Template for China Undergraduate Mathematical Contest in Modeling
+- 中国大学生数学建模竞赛 LaTeX 模板
+- 项目地址: [cumcm](https://github.com/jayxin/cumcm)
+- 本项目在[latexstudio](https://github.com/latexstudio)的[CUMCMThesis](https://github.com/latexstudio/CUMCMThesis)项目基础上修改和添加内容，并调整了项目结构，使整个项目结构更清晰，方便使用和维护。在此感谢原作者的贡献！
 
-cumcmthesis 是为全国大学生数学建模竞赛编写的 `LaTeX` 模板, 旨在让大家专注于
-论文的内容写作, 而不用花费过多精力在格式的定制和调整上. 本手册是相应的参考, 其
-中提供了一些环境和命令可以让模板的使用更为方便. 同时需要注意, 使用者需要有一
-定的 `LaTeX` 的使用经验, 至少要会使用 `ctex` 宏包的一些功能, 比如调节字距或修改字体
-大小等等. 例子文件参看 [example.pdf](https://github.com/latexstudio/CUMCMThesis/blob/master/example.pdf).
+## 文件列表
 
-另外, 本模板制作了视频使用教程, 参看[这里](https://item.taobao.com/item.htm?spm=a1z10.1-c.w4004-3473795048.2.ZlPoPL&id=43823508044). 
-
-<img src="https://github.com/latexstudio/CUMCMThesis/blob/master/figures/gongzhonghao2.png" alt="" width="350px">
-
-
-
-
-2019年建模模板的免费视频教程：
-
-第一部分：
-[https://www.bilibili.com/video/av64191560](https://www.bilibili.com/video/av64191560)
-
-第二部分：
-[https://www.bilibili.com/video/av64221508](https://www.bilibili.com/video/av64221508)
-
-
-![](https://github.com/latexstudio/CUMCMThesis/blob/master/example-1.png)
-
-## 更新记录
-
-2026 年 8 月：
-1， 更新了 AI 使用声明书。
-
-2023 年 9 月：
-1， 更新了前面承诺书版式。
-
-2021 年 7 月：
-1， 更新 uline 与 hspace 的兼容问题。
-
-2020 年 8 月：
-
-1，适配官网新格式的封面和编号页。格式在[这里](http://www.mcm.edu.cn/html_cn/node/2ecdb523ea364d8fff6928ada7ebd923.html)
-
-2，调整了部分的内容和说明。
-
-2019年9月更新：
-
-1，适配官网格式：[http://mcm.edu.cn/html_cn/node/8e7b0262daa56b8953d1b6ccaada9ed4.html](http://mcm.edu.cn/html_cn/node/8e7b0262daa56b8953d1b6ccaada9ed4.html)。
-
-2，增加了更新说明，格式的说明，视频依然可以使用！
-
-2019年8月更新：
-
-1，更新说明文件和样例。
-
-2，增加了免费视频教程和基础知识介绍。
-
-2018年9月14日更新：
-
-1，修改前面的承诺书内容。
-
-2，修改附录链接问题，目录格式。
-
-2017年8月14日更新说明：
-
-1. 请大家使用较新的 `LaTeX` 发行版本进行编译，下载地址：http://www.latexstudio.net/page/texsoftware 首页焦点图。不要使用 `CTeX` 套装。
-
-2. 遇到问题可以到91940767群进行交流或478023327群交流
-
-2017年7月28日更新:
-
-1. 适配2016年的格式要求，调整了承诺和编号页的内容。
-
-2. 修改了附录的代码输入样式。
-
-
-如果需要去掉封面并把论文标题保留在摘要上面，在加载类的使用如下语句：
+```none
+.
+├── commons/ 模板
+│   ├── cumcmthesis.cls 基础模板
+│   ├── cumcm2026.sty AI 使用声明的命令定义及格式调整
+│   └── preamble.tex 用户自定义加载宏包、命令、环境等
+├── contents/ 内容
+│   ├── abstract.tex 摘要
+│   ├── appendix/ 附录
+│   ├── info.tex 论文基本信息
+│   ├── ai-usage.tex AI 使用声明
+│   ├── references.tex 参考文献
+│   └── sections/ 正文内容
+├── docs/ 文档(包括论文格式说明文档等)
+│   ├── CUMCM_LaTeX_实战入门-零基础.docx
+│   ├── CUMCM_LaTeX_实战入门-零基础.pdf
+│   ├── 2026高教社杯全国大学生数学建模竞赛第一次通知.pdf
+│   ├── 全国大学生数学建模竞赛论文格式规范-2019年修订稿.pdf
+│   └── 全国大学生数学建模竞赛论文格式规范-2026年修订稿.pdf
+├── figures/ 存放论文用到的图片文件
+├── fonts/ 存放字体文件
+├── .gitignore git 版本控制忽略文件
+├── latexmkrc latexmk 配置文件
+├── LICENSE.txt 使用许可
+├── main.tex **主文档(编译入口文档, Main Document)**
+├── contributors.md 项目贡献者列表
+└── README.md 项目说明
 ```
-    \documentclass[withoutpreface,bwprint]{cumcmthesis}
+
+## 编译
+
+### 本地编译
+
+- 使用前提: 本地已装好 LaTeX 的发行版如 TeXLive
+- 已测试环境:
+	+ 操作系统 - Linux
+	+ LaTeX 发行版 - TeXLive 2023
+
+#### 方法1-用 xelatex 编译
+
+需手动编译多次，引用等内容才能正确显示。
+
+```sh
+xelatex main
+xelatex main
 ```
-如果需要封面页，则是与原来一致：
+
+#### 方法2-用 latexmk 编译
+
+自动编译多次:
+
+```sh
+latexmk main
 ```
-    \documentclass[bwprint]{cumcmthesis}
+
+清理辅助文件(`log`、`aux`等):
+
+```sh
+latexmk -c main
 ```
+
+清理辅助文件(`log`、`aux`等)和 `pdf`:
+
+```sh
+latexmk -C main
+```
+
+### 在线编译
+
+- 可使用在线的编译平台进行编译如:
+	+ [TeXPage](https://texpage.com)
+	+ [OverLeaf](https://overleaf.com)
+- 已测试平台: TeXPage, 进行编译前需保证如下设置
+	+ **编译器**: `xelatex`
+	+ **TeXLive 版本**: 2023
+	+ **主文档(Main Document)**: main.tex
+
+## 文档类选项说明
+
+本项目文档类(Document Class)目前支持下面的选项:
+- `draft`: 是否嵌入图片和代码, 默认嵌入。
+- 打印选项:
+	+ `colorprint`: 彩色打印(默认)。
+	+ `bwprint`: 黑白打印。
+- `withoutpreface`: 最终文档不含前言(承诺书和编号页), 不加此选项则默认包含。根据最新要求，电子版文档无需前言，请根据具体要求进行相应调整。
+
+<!-- vim: set noet: -->

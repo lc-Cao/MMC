@@ -1,11 +1,22 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{cumcmthesis}
-              [2026/08/26 v2.9 Standard LaTeX Template for CUMCM]
-%% Inital Code
+
+\IfFileExists{cumcmthesis.cls}{
+  \ProvidesClass{cumcmthesis}[2026/08/03 v1.0 Standard LaTeX Template for CUMCM]
+}{
+  \ProvidesClass{commons/cumcmthesis}
+    [2026/08/03 v1.0 Standard LaTeX Template for CUMCM]
+}
+
+% for document class options -------
+% black white print
 \newif\if@mcm@bwprint\@mcm@bwprintfalse
+
+% include preface or not
 \newif\if@mcm@preface\@mcm@prefacetrue
-% tokens definition
-%%%% 承诺书
+%-----
+
+% tokens definition -------
+% 承诺书 -------
 \newcommand\mcm@tokens@keywords{}
 \newcommand*\mcm@tokens@tihao{}
 \newcommand*\mcm@tokens@baominghao{}
@@ -17,81 +28,91 @@
 \newcommand*\mcm@tokens@yearinput{}
 \newcommand*\mcm@tokens@monthinput{}
 \newcommand*\mcm@tokens@dayinput{}
-%%%% 编号专用页
-% 没有
-%% Declaration of Options
+%-----
+%-----
+
+% options processing -------
+% Declaration of Options -------
 \DeclareOption{colorprint}{\@mcm@bwprintfalse}
 \DeclareOption{bwprint}{\@mcm@bwprinttrue}
 \DeclareOption{withoutpreface}{\@mcm@prefacefalse}
+\DeclareOption{draft}{\PassOptionsToPackage{draft}{graphicx}}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
-%% Executing of Options
+%-----
+
+% Executing of Options -------
 \ExecuteOptions{colorprint}
 \ProcessOptions\relax
-%% Loading Class
+%-----
+%-----
+
+% Base Class
 \LoadClass[a4paper,12pt]{article}
-%% Loading Package
+
+% use xelatex compiler only -------
 \RequirePackage{ifxetex}
 \RequireXeTeX
 \ifxetex\else
-\ClassError{mcmthesis}{You must use the `xelatex' driver\MessageBreak Please choose `xelatex'}{%
+\ClassError{cumcmthesis.cls}{You must use the `xelatex' driver\MessageBreak Please choose `xelatex'}{%
 Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \fi
-% 支持中文的 ctex 宏包
+%-----
+
+% 支持中文
 \RequirePackage{ctex}
+
 % 页面布局
 \RequirePackage{geometry}
-% 数学宏包
+
+% 数学宏包 -------
 \RequirePackage{amsmath}
 \RequirePackage{amsfonts}
 \RequirePackage{amssymb}
 \RequirePackage{bm}
+%-----
+
 %\RequirePackage{titletoc}
-% 设置颜色
+
+% 颜色 -------
 \RequirePackage{xcolor}
-% 插入图片
-\RequirePackage{graphicx}
-\RequirePackage{float}
-% 表格
-\RequirePackage{array}
-%% 长表格
-\RequirePackage{longtable}
-%% booktabs 提供了\toprule 等命令.
-\RequirePackage{booktabs,tabularx}
-%% multirow 支持在表格中跨行
-\RequirePackage{multirow}
-%% 调整间隔, 让表格更好看些
-\RequirePackage{bigstrut}
-%% 在跨行表格中输入定界符
-\RequirePackage{bigdelim}
-% 保护脆落命令
-\RequirePackage{cprotect}
-% 设置代码环境
-\RequirePackage{listings}
-\RequirePackage{xcolor}
-% 插入链接
-\RequirePackage{url}
-% 绘图的包
-%\RequirePackage{tikz}
-%\usetikzlibrary{snakes}
 
-% 字图与子标题
-\RequirePackage{subcaption}
-\RequirePackage[titles]{tocloft}
-%\renewcommand{\cftdot}{$\cdot$}
-%\renewcommand{\cftsecdotsep}{1.5}
-\renewcommand{\cftsecdotsep}{4.5}
-\setlength{\cftbeforesecskip}{7pt}
-\setlength{\cftbeforesubsecskip}{3pt}
-%\setlength{\cftbeforesubsecskip}{5pt}
-\renewcommand{\cftsecfont}{\bfseries\zihao{-4}\heiti}
-\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
-\renewcommand{\cftsecaftersnumb}{\hskip.4em}
-
-
-
+% color definition -------
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
+%-----
+%-----
+
+% 插图 -------
+\RequirePackage{graphicx}
+
+% 若图未指定后缀, 则按下列顺序搜索
+\DeclareGraphicsExtensions{.pdf,.eps,.jpg,.png}
+
+% 图搜索路径
+\graphicspath{{figures/}}
+
+\RequirePackage{float}
+%-----
+
+% 表格 -------
+\RequirePackage{array}
+% 长表格
+\RequirePackage{longtable}
+\RequirePackage{booktabs,tabularx}
+% 支持表格跨行
+\RequirePackage{multirow}
+% 调整间隔, 让表格更好看
+\RequirePackage{bigstrut}
+% 在跨行表格中输入定界符
+\RequirePackage{bigdelim}
+%-----
+
+% 保护脆落命令
+\RequirePackage{cprotect}
+
+% 代码环境 -------
+\RequirePackage{listings}
 
 \lstset{
   frame=tb,
@@ -112,6 +133,44 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
   breakatwhitespace=true,
   tabsize=3,
 }
+
+\lstnewenvironment{tcode}{%
+  \lstset{basicstyle = \small\ttfamily,
+        language=TeX,
+        tabsize = 4,
+        frame = single,
+        escapechar = `,
+        breaklines = true,
+        breakatwhitespace = true,
+        frameround = tttt,
+  }
+}{}
+%-----
+
+% 插入链接
+\RequirePackage{url}
+
+% 绘图的包 -------
+%\RequirePackage{tikz}
+%\usetikzlibrary{snakes}
+%-----
+
+% 子图与子标题
+\RequirePackage{subcaption}
+
+% 目录格式设置 -------
+\RequirePackage[titles]{tocloft}
+%\renewcommand{\cftdot}{$\cdot$}
+%\renewcommand{\cftsecdotsep}{1.5}
+\renewcommand{\cftsecdotsep}{4.5}
+\setlength{\cftbeforesecskip}{7pt}
+\setlength{\cftbeforesubsecskip}{3pt}
+%\setlength{\cftbeforesubsecskip}{5pt}
+\renewcommand{\cftsecfont}{\bfseries\zihao{-4}\heiti}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+\renewcommand{\cftsecaftersnumb}{\hskip.4em}
+%-----
+
 % 首行缩进
 \RequirePackage{setspace}
 % 设置浮动体的标题
@@ -123,38 +182,77 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % 尺寸计算
 \RequirePackage{calc}
 
-
 \RequirePackage[titletoc,title]{appendix}
-
 %\RequirePackage[title,toc,titletoc]{appendix}
 
+% add bibliography to table of contents -------
 \RequirePackage{etoolbox}
 \AtBeginEnvironment{thebibliography}{%
-    \phantomsection
-    \addcontentsline{toc}{section}{\refname}
-    }
-% 超链接 hyperref 的设置
+  \phantomsection
+  \addcontentsline{toc}{section}{\refname}
+}
+%-----
+
+% 超链接 -------
 \RequirePackage{hyperref}
+
+\hypersetup{
+  % xetex,
+  % unicode=false, % hyperref 和 xetex 同时使用时不能开启 Unicode 选项.
+  pdfstartview=FitH,
+  CJKbookmarks=true,
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  colorlinks, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder同时注释掉)
+  pdfborder=001,   %注释掉此项则交叉引用为彩色边框
+  allcolors=black,
+  breaklinks=true
+}
+%-----
+
 % 智能自动化交叉引用
 \RequirePackage{cleveref}
-%% Document Layout
-% 页面布局
+
+% 页面布局 -------
 \geometry{top=25mm,bottom=25mm,left=25mm,right=25mm}
 \renewcommand*{\baselinestretch}{1.38}
-% 修改tabular 环境, 设置表格中的行间距为正文行间距.
+%-----
+
+% 重定义 tabular 环境, 设置表格行间距为正文行间距 -------
 \let\mcm@oldtabular\tabular
 \let\mcm@endoldtabular\endtabular
-\renewenvironment{tabular}%
-	{\bgroup%
-	\renewcommand{\arraystretch}{1.38}%
-	\mcm@oldtabular}%
-	{\mcm@endoldtabular\egroup}
+\renewenvironment{tabular}{%
+  \bgroup%
+  \renewcommand{\arraystretch}{1.38}%
+  \mcm@oldtabular%
+}{%
+  \mcm@endoldtabular%
+  \egroup%
+}
+%-----
+
 % 每行缩进两个汉字
 \setlength\parindent{2em}
-% 设置字体
-\setmainfont{Times New Roman}
+
+% font settings -------
+\setmainfont{times}[
+  Path={fonts/times/},
+  Extension={.ttf},
+  BoldFont={timesbd},
+  ItalicFont={timesi},
+  BoldItalicFont={timesbi},
+]
+
 %\setmonofont{Courier New}
-\setsansfont{Arial} 
+
+\setsansfont{arial}[
+  Path={fonts/arial/},
+  Extension={.ttf},
+  BoldFont={arialbd},
+  ItalicFont={ariali},
+  BoldItalicFont={arialbi},
+]
+
 \newcommand*{\kai}{\kaishu} 
 \newcommand*{\song}{\songti}
 
@@ -163,7 +261,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 	\abovedisplayskip 12\p@ \@plus3\p@ \@minus7\p@
 	\abovedisplayshortskip \z@ \@plus3\p@
 	\belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@}
-% 数学环境, 定理等设置
+%-----
+
+% 数学环境, 定理等设置 -------
 \newtheorem{definition}{\mcm@cap@definition}
 \newtheorem{theorem}{\mcm@cap@theorem}
 \newtheorem{lemma}{\mcm@cap@lemma}
@@ -176,28 +276,22 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newtheorem{example}{\mcm@cap@example}
 \newtheorem{proof}{\mcm@cap@proof}
 \newtheorem{solution}{\mcm@cap@solution}
+%-----
 
-% 浮动环境设置
-% 默认情况下, \LaTeX{} 要求每页的文字至少占据 20%,否则该页就只单独放置一个浮动环境,
-% 而这通常不是我们想要的, 我们将这个要求降低到 5%.
- \renewcommand*{\textfraction}{0.05}
-% 有时如果多个浮动环境连续放在一起, \LaTeX{}
-% 会将它们分在几个不同页，即使它们可在同一页放
-% 得下. 我们可以通过修改 |\topfraction| 和 |\bottomfraction| 分别设置顶端和底端的浮
-% 动环境的最大比例.
- \renewcommand*{\topfraction}{0.9}
- \renewcommand*{\bottomfraction}{0.8}
-% 有时\LaTeX{}会把一个浮动环境单独放在一页,
-% 我们要求这个环境至少要占据 85% 才能单独放在一页.
-% 注意:  |\floatpagefraction| 的数值必须小于 |\topfraction|.
- \renewcommand*{\floatpagefraction}{0.85}
-% 关于图片 graphicx
- % 如果图片没有指定后缀, 依次按下列顺序搜索
-\DeclareGraphicsExtensions{.pdf,.eps,.jpg,.png}
- % 设置图表搜索路径, 可以给图表文件夹取如下名字
-\graphicspath{{figures/}{figure/}{pictures/}%
-  {picture/}{pic/}{pics/}{image/}{images/}}
-% 图表标题
+% 浮动环境设置 -------
+% 默认情况, LaTeX 要求每页文字至少占 20%,否则该页就只单独放一个浮动环境,
+% 而这通常不是想要的, 将此要求降低到 5%
+\renewcommand*{\textfraction}{0.05}
+% 若有多个浮动环境连续放在一起, LaTeX 有可能将它们分在几个不同页, 即使可在同一页放得下
+% 可通过修改 |\topfraction| 和 |\bottomfraction| 分别设置顶端和底端的浮动环境的最大比例
+\renewcommand*{\topfraction}{0.9}
+\renewcommand*{\bottomfraction}{0.8}
+% 有时 LaTeX 会把一个浮动环境单独放在一页, 我们要求此环境至少占 85% 才能单独放一页
+% 注意: |\floatpagefraction| 的数值必须小于 |\topfraction|
+\renewcommand*{\floatpagefraction}{0.85}
+%-----
+
+% 图表标题 -------
 \DeclareCaptionFont{song}{\songti}
 \DeclareCaptionFont{minusfour}{\zihao{-4}}
 \captionsetup[figure]{%
@@ -212,7 +306,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 	font={song,minusfour,bf}, % 表的字体, 宋体小四
 	position=top % position=bottom, 不代表标题放在下面, 标题仍放在你放\caption的位置.
 }
-% 列表环境设置
+%-----
+
+% 列表环境设置 -------
 \setlist{%
 	topsep=0.3em, % 列表顶端的垂直空白
 	partopsep=0pt, % 列表环境前面紧接着一个空白行时其顶端的额外垂直空白
@@ -223,39 +319,17 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 	labelsep=0.5em, % 包含标签的盒子与列表项的第一行文本之间的间隔
 	labelwidth=2em % 包含标签的盒子的正常宽度；若实际宽度更宽，则使用实际宽度。
 }
+%-----
 
-% 超链接
-	 \hypersetup{%
-%         xetex,
-		% unicode=false, % hyperref 和 xetex 同时使用时不能开启 Unicode 选项.
-         pdfstartview=FitH,
-         CJKbookmarks=true,
-         bookmarksnumbered=true,
-         bookmarksopen=true,
-         colorlinks, %注释掉此项则交叉引用为彩色边框(将colorlinks和pdfborder同时注释掉)
-         pdfborder=001,   %注释掉此项则交叉引用为彩色边框
-		 allcolors=black,
-		 breaklinks=true}%
 % \if@mcm@bwprint
 % \AtBeginDocument{\hypersetup{hidelinks}}
 % \else\relax\fi
+
 \pdfstringdefDisableCommands{%
 	\def\cftdotfill{ }%
 }
-\lstnewenvironment{tcode}
-  {
-    \lstset{basicstyle = \small\ttfamily,
-        language=TeX,
-        tabsize = 4,
-        frame = single,
-        escapechar = `,
-        breaklines = true,
-        breakatwhitespace = true,
-        frameround = tttt,
-    }
-  }
-  {}
-%%% crefformat settings
+
+% crefformat settings -------
 \crefformat{figure}{#2图~#1#3}
 \crefrangeformat{figure}{图~(#3#1#4)\;\~{}\;(#5#2#6)}
 \crefmultiformat{figure}{图~(#2#1#3)}{和~(#2#1#3)}{，(#2#1#3)}{和~(#2#1#3)}
@@ -315,19 +389,18 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \crefformat{solution}{#2\mcm@cap@solution~#1#3}
 \crefrangeformat{solution}{\mcm@cap@solution~(#3#1#4)\;\~{}\;(#5#2#6)}
 \crefmultiformat{solution}{\mcm@cap@solution~(#2#1#3)}{ 和~(#2#1#3)}{，(#2#1#3)}{ 和~(#2#1#3)}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----
 
-%% Document Markup
-
-% 生成封面, 使用\maketitle
-\renewcommand{\maketitle}{\par
+% 封面 -------
+\renewcommand{\maketitle}{%
+  \par
   \thispagestyle{plain}%
   \setcounter{page}{1}%
 	\begingroup
-      \newpage
-      \global\@topnum\z@   % Prevents figures from going at top of page.
-      \@maketitle
-    \endgroup
+    \newpage
+    \global\@topnum\z@   % Prevents figures from going at top of page.
+    \@maketitle
+  \endgroup
   \global\let\thanks\relax
   \global\let\maketitle\relax
   \global\let\@maketitle\relax
@@ -340,6 +413,7 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
   \global\let\date\relax
   \global\let\and\relax
 }
+
 \def\@maketitle{%
   \newpage
   \if@mcm@preface
@@ -389,28 +463,35 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 	\else
 	\fi
 	\makeothertitle
-	}
+}
+%-----
 
-%% 定义 编号专用页
+% 定义编号专用页 -------
 \def\makeothertitle{%
   \if@mcm@preface
-  \par
-\newpage
-\null
-\thispagestyle{empty}
-{\zihao{4}\noindent\begin{tabularx}{\textwidth}{cXcX@{}}
-\mcm@numberpage@string@headname & & \mcm@numberpage@string@allcountrynum&\\[-5pt]
-\mcm@numberpage@string@headnameb & &\mcm@numberpage@string@allcountrynumb&\\
-\cline{2-2}\cline{4-4}
-\end{tabularx}
+    \par
+    \newpage
+    \null
+    \thispagestyle{empty}
+    \begingroup
+    \zihao{4}\noindent%
+    \begin{tabularx}{\textwidth}{cXcX@{}}
+      \mcm@numberpage@string@headname & & \mcm@numberpage@string@allcountrynum&\\[-5pt]
+      \mcm@numberpage@string@headnameb & &\mcm@numberpage@string@allcountrynumb&\\
+      \cline{2-2}\cline{4-4}
+    \end{tabularx}
 
-\vspace*{1.2em}
+    \vspace*{1.2em}
 
-\noindent\rule{\textwidth}{1pt}\par}
-\begin{center}
-{\zihao{4}\bfseries\heiti \mcm@numberpage@string@titlea\par}
-{\vskip1ex\zihao{3}\songti \bfseries\mcm@numberpage@string@titleb\par}
-\end{center}\par
+    \noindent%
+    \rule{\textwidth}{1pt}%
+    \par
+    \endgroup
+    \begin{center}
+      {\zihao{4}\bfseries\heiti \mcm@numberpage@string@titlea\par}
+      {\vskip1ex\zihao{3}\songti \bfseries\mcm@numberpage@string@titleb\par}
+    \end{center}
+    \par
 {%
 \zihao{4}
 \vskip3em
@@ -450,8 +531,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \vskip1ex
 \fi
 }
+%-----
 
-% 中文标题名称设置
+% 中文标题名称设置 -------
 \renewcommand\contentsname{\mcm@cap@contentsname}
 \renewcommand\listfigurename{\mcm@cap@listfigurename}
 \renewcommand\listtablename{\mcm@cap@listtablename}
@@ -461,8 +543,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \renewcommand\tablename{\mcm@cap@tablename}
 \renewcommand\appendixname{\mcm@cap@appendixname}
 \renewcommand\abstractname{\mcm@cap@abstractname}
+%-----
 
-% 中文标题格式设置
+% 中文标题格式设置 -------
 % 目录深度
 \setcounter{secnumdepth}{3}
 % 节标题格式, 居中, 使用\chinese命令修改计数器
@@ -490,48 +573,53 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 	 {3.25ex \@plus1ex \@minus .2ex}%
 	 {-1em}%
 	 {\normalfont\normalsize\bfseries}}
+%-----
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Define new environment and command
-%% 摘要两个字设置为 3 号 (2026 更新).
-%% 定义摘要环境
+% 摘要 -------
 \renewenvironment{abstract}{%
 \if@twocolumn
-		\section*{\abstractname}%
-	\else
-	 \begin{center}%
-	{\zihao{3}\bfseries \abstractname\vspace{-.5em}\vspace{\z@}}%
-	 \end{center}%
- 	 \quotation
-	\fi}
-	{\if@twocolumn\else\endquotation\newpage\null\fi}
-\renewenvironment{quotation}
-	{\list{}{\listparindent 2em%
+  \section*{\abstractname}%
+\else
+  \begin{center}%
+    {\zihao{3}\bfseries \abstractname\vspace{-.5em}\vspace{\z@}}%
+  \end{center}%
+  \quotation
+\fi
+}{%
+\if@twocolumn\else\endquotation\newpage\null\fi}
+
+\renewenvironment{quotation}{%
+  \list{}{\listparindent 2em%
 	 \itemindent \listparindent
 	 \rightmargin\z@
 	 \leftmargin\z@
 	 \parsep \z@ \@plus\p@}%
-	\item\relax}
-	{\endlist}
+	\item\relax
+}{\endlist}
+%-----
 
+% 关键词 -------
 \newcommand\keywords[1]{%
 	\renewcommand{\mcm@tokens@keywords}{#1}
 	\par
 	\vskip1ex
 	{\noindent\zihao{-4}\heiti\mcm@cap@keywordsname：}~{\mcm@tokens@keywords}
-	}
-% 定义附录
+}
+%-----
 
+% 附录 -------
 % \renewcommand{\setthesection}{\appendixname\Alph{section}}
 % \renewcommand\appendix{\par
 	% \setcounter{section}{0}%
 	 % \setcounter{subsection}{0}%
 	% \gdef\thesection{\appendixname\@Alph\c@section}}
-% 重定义参考文献环境
-\renewenvironment{thebibliography}[1]
-     {\section*{\refname}%
-      \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}%
-      \list{\@biblabel{\@arabic\c@enumiv}}%
+%-----
+
+% 重定义参考文献环境 -------
+\renewenvironment{thebibliography}[1]{%
+  \section*{\refname}%
+  \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}%
+  \list{\@biblabel{\@arabic\c@enumiv}}%
            {\settowidth\labelwidth{\@biblabel{#1}}%
             \leftmargin\labelwidth
             \advance\leftmargin\labelsep
@@ -543,11 +631,14 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
       \clubpenalty4000
       \@clubpenalty \clubpenalty
       \widowpenalty4000%
-      \sfcode`\.\@m}
-     {\def\@noitemerr
-       {\@latex@warning{Empty `thebibliography' environment}}%
-      \endlist}
+      \sfcode`\.\@m
+}{%
+  \def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}%
+  \endlist%
+}
+%-----
 
+% 论文信息命令 -------
 \newcommand*\tihao[1]{%
 	\renewcommand{\mcm@tokens@tihao}{#1}}
 \newcommand*\baominghao[1]{%
@@ -568,11 +659,10 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 	\renewcommand{\mcm@tokens@monthinput}{#1}}
 \newcommand*\dayinput[1]{%
 	\renewcommand{\mcm@tokens@dayinput}{#1}}
+%-----
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%% Initialization
- %%%数学定理相关的常量
+% 常量定义 -------
+% 数学定理相关的常量 -------
 \newcommand*{\mcm@cap@definition}{定义}
 \newcommand*{\mcm@cap@theorem}{定理}
 \newcommand*{\mcm@cap@lemma}{引理}
@@ -585,7 +675,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newcommand*{\mcm@cap@example}{例}
 \newcommand*{\mcm@cap@proof}{证明}
 \newcommand*{\mcm@cap@solution}{解}
- %%%  中文标题名称
+%-----
+
+% 中文标题名称 -------
 \newcommand*{\mcm@cap@contentsname}{目录}
 \newcommand*{\mcm@cap@listfigurename}{插图清单}
 \newcommand*{\mcm@cap@listtablename}{附表清单}
@@ -595,10 +687,12 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newcommand*{\mcm@cap@tablename}{表}
 \newcommand*{\mcm@cap@appendixname}{附录}
 \newcommand*{\mcm@cap@abstractname}{摘\quad 要}
- %%%  中文关键字
+%-----
+
+% 中文关键字
 \newcommand*{\mcm@cap@keywordsname}{关键字}
 
- %%% 承诺书中的常量
+% 承诺书中的常量 -------
 \newcommand*\mcm@commit@string@headname{赛区评阅编号（由赛区组委会填写）：}
 \newcommand*\mcm@commit@string@titlea{\the\year 高教社杯全国大学生数学建模竞赛}
 \newcommand*\mcm@commit@string@titleb{承\hspace{1em}诺\hspace{1em}书}
@@ -629,8 +723,9 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newcommand*\mcm@commit@string@month{月}
 \newcommand*\mcm@commit@string@day{日}
 \newcommand*\mcm@commit@string@appraisenum{赛区评阅编号（由赛区组委会评阅前进行编号）：}
+%-----
 
- %%% 编号专用页中的常量
+% 编号专用页中的常量 -------
 \newcommand*\mcm@numberpage@string@headname{赛区评阅编号：}
 \newcommand*\mcm@numberpage@string@headnameb{（由赛区填写）}
 \newcommand*\mcm@numberpage@string@allcountrynum{全国评阅编号：}
@@ -640,15 +735,16 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 \newcommand*\mcm@numberpage@string@appraiselog{赛区评阅记录（可供赛区评阅时使用）：}
 \newcommand\mcm@numberpage@string@reviewer{\shortstack{评\\ 阅\\ 人}}
 \newcommand\mcm@numberpage@string@remarks{\shortstack{备\\ 注}}
-
-
 \newcommand*\mcm@numberpage@string@countrynum{送全国评阅统一编号:\par \hspace*{2em}（赛区组委会填写）}
 \newcommand\mcm@numberpage@string@inform{\quotation
 \noindent（{\bfseries\kai 请勿改动此页内容和格式。此编号专用页仅供赛区和全国评阅使用，参赛队打印后装订到纸质论文的第二页上。
 注意电子版论文中不得出现此页。}）
 \endquotation
 }
-%设置目录格式
+%-----
+%-----
+
+% 设置目录格式 -------
 % 节的目录格式
 % \titlecontents{section}[0pt]{\vspace{2mm}\bfseries}
 % {\thecontentslabel\hskip.5em}{}{\titlerule*[0.5pc]{.}\contentspage}
@@ -657,8 +753,13 @@ Just choose `xelatex', no `pdflatex' or `latex' and so on.}
 % {\thecontentslabel\hskip.5em}{}{\titlerule*[0.5pc]{.}\contentspage}
 % \titlecontents{subsubsection}[55pt]{\songti}
 % {\thecontentslabel\hskip.5em}{}{\titlerule*[0.5pc]{.}\contentspage}
+%-----
 
-% 上标文献
+% 上标文献 -------
 \newcommand{\upcite}[1]{$^{\mbox{\scriptsize \cite{#1}}}$}
 \newcommand{\supercite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
+%-----
+
 \endinput
+
+% vim: set ft=tex fdm=marker fmr=\ -------,-----:
