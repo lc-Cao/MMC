@@ -1,0 +1,17 @@
+2024 E 题附件2 使用说明
+================================
+
+原始附件 附件2.csv 约 468MB，超过 GitHub 单文件 100MB 上限，
+故仓库中存放压缩版 附件2.csv.gz（约 94MB），请按需解压后使用。
+
+本机（d:\国赛）保留原始 附件2.csv（已在 .gitignore 中，不会被上传）。
+
+读取方式：
+1) 命令行解压（生成原 csv）：
+   gzip -d 附件2.csv.gz        # Linux/Mac
+   或 7-Zip/WinRAR 直接右键解压（Windows）
+2) Python 直接读压缩文件（不落盘）：
+   import pandas as pd
+   df = pd.read_csv('附件2.csv.gz', compression='gzip')
+
+说明：官方赛题数据，仅供备赛练习使用。

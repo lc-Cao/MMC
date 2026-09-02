@@ -1,0 +1,7 @@
+# Python 缓存
+__pycache__/
+*.pyc
+
+# 超大单文件(468MB 原文件)超过 GitHub 100MB 单文件上限，不入仓；
+# 仓库内提供 附件2.csv.gz(约94MB)，用 gzip 解压或 pandas.read_csv('...gz', compression='gzip') 读取
+08_赛题资料库/真题与优秀论文/2024真题/E题/附件2.csv

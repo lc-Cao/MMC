@@ -1,0 +1,169 @@
+% =====================================================================
+% 国赛 LaTeX 高频代码 + 八章骨架（复制即用）
+% 依据：讲义第 8 章。放在 CUMCM 模板的对应文件中使用，
+%      主文件由 \input{} 引入各章，此文件全部为"可粘贴片段"。
+% =====================================================================
+
+% ---------------- ① 三线表（表格唯一规范：顶线粗-栏目线细-底线粗） ----------------
+\begin{table}[ht]
+  \centering
+  \caption{表标题（写在表上方）}
+  \begin{tabular}{ccc}   % 列数 = 格式数，每行 & 数量 = 列数-1
+    \toprule
+    列1 & 列2 & 列3 \\
+    \midrule
+    数据 & 数据 & 数据 \\
+    数据 & 数据 & 数据 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% ---------------- ② 插入图片（图题写在图下方） ----------------
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.75\textwidth]{figures/文件名.png}  % 图片放 figures/
+  \caption{图标题（写在图下方）}
+  \label{fig:标签}
+\end{figure}
+
+% ---------------- ③ 公式：行内 / 居中 / 编号 / 多行对齐 ----------------
+行内公式：$x_1 + x_2 = y$。
+
+居中无编号：
+\[ f(x) = \frac{1}{1 + e^{-x}} \]
+
+带编号：
+\begin{equation}
+  y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 \label{eq:回归}
+\end{equation}
+
+多行对齐（优化模型标准写法）：
+\begin{align}
+  \min\quad & z = 3x_1 + 5x_2 \\
+  \text{s.t.}\quad & 2x_1 + x_2 \leq 100 \\
+  & x_1 + 2x_2 \leq 80 \\
+  & x_1, x_2 \geq 0
+\end{align}
+
+% ---------------- ④ 引用公式/图/表 ----------------
+如式\eqref{eq:回归}所示；如图\ref{fig:标签}所示；见表\ref{tab:xx}。
+
+% ---------------- ⑤ 附录放代码（.py 放 code/ 文件夹） ----------------
+% \lstinputlisting[language=Python]{code/xxx.py}
+
+% =====================================================================
+% 八章骨架：把下面每段拷入对应文件，把【】换成内容
+% =====================================================================
+
+% ---- 主文件 论文-.tex（改标题/摘要/关键词）----
+% \title{基于【方法】的【问题】研究}
+% \begin{abstract}
+% 本文针对【背景】... 综合运用【方法】...
+% \textbf{针对问题一：}...
+% \textbf{针对问题二：}...
+% \textbf{针对问题三：}...
+% 综上，...
+% \keywords{关键词1；关键词2；关键词3；关键词4；关键词5}
+% \end{abstract}
+
+% ---- 1. 引言.tex ----
+\section{引言}
+\subsection{问题背景}
+【题目背景与研究现状 1-2 页，可引用文献】
+\subsection{问题重述}
+\textbf{问题1：}【用自己的话概括】
+\textbf{问题2：}【用自己的话概括】
+\textbf{问题3：}【用自己的话概括】
+
+% ---- 2. 总体分析.tex ----
+\section{总体分析}
+\subsection{数据来源与特征分析}
+【数据量、维度、特征类型、缺失情况】
+\subsection{整体建模思路}
+【文字+总体流程图：先做什么→再做什么→最后做什么】
+
+% ---- 3. 模型假设.tex ----
+\section{模型假设}
+\begin{enumerate}
+  \item 假设【假设1】。理由：【说明】。
+  \item 假设【假设2】。理由：【说明】。（后文灵敏度将检验此假设）
+  % ... 共 5-8 条
+\end{enumerate}
+
+% ---- 4. 符号说明.tex ----
+\section{符号说明}
+\begin{table}[ht]
+  \centering
+  \caption{符号说明}
+  \begin{tabular}{ccc}
+    \toprule
+    符号 & 含义 & 单位 \\
+    \midrule
+    $T(x,t)$ & 温度分布 & $^\circ$C \\
+    $k_i$ & 第 $i$ 层热传导率 & W/(m$\cdot$K) \\
+    % ... 列全所用符号
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% ---- 5. 模型的建立与求解.tex（每个问题一个子文件）----
+\section{模型的建立与求解}
+\input{5.1. 问题1的建立求解.tex}
+% \input{5.2. 问题2的建立求解.tex}
+% \input{5.3. 问题3的建立求解.tex}
+
+% ---- 5.1. 问题1的建立求解.tex（核心三节写法）----
+\subsection{问题一模型的建立与求解}
+\subsubsection{具体分析}
+【本问要解决什么、数据特点、为什么选这个方法】
+\subsubsection{模型建立}
+\textbf{步骤1：数据预处理}
+【过程描述+关键公式】
+\textbf{步骤2：建立XX模型}
+【数学公式+符号解释+推导逻辑】
+\textbf{步骤3：模型求解策略}
+【数值方法+为什么选它】
+\subsubsection{模型求解}
+【代入实际数据展示结果，表格+图，每个结果给具体数值】
+% 四要素自查：输入什么→用什么方法→输出什么→结果说明什么
+
+% ---- 6. 模型检验.tex（硬性要求）----
+\section{模型检验}
+\subsection{灵敏度分析}
+【改变关键参数 ±10%，结果变化如表X所示，排名/结论保持稳定→鲁棒性好】
+\subsection{误差分析}
+【预测值 vs 真实值，MAPE=3.2% 等定量指标】
+\subsection{模型对比}  % 若用了多个模型
+【表格对比各模型优劣，说明选型理由】
+
+% ---- 7. 模型评价.tex ----
+\section{模型评价}
+\subsection{模型优点}
+\begin{enumerate}
+  \item 【优点1——对应正文具体内容】
+  \item 【优点2】
+\end{enumerate}
+\subsection{模型缺点}
+\begin{enumerate}
+  \item 【缺点1——写真实局限，不要写"时间有限"】
+  \item 【缺点2】
+\end{enumerate}
+
+% ---- 8. 模型改进推广.tex ----
+\section{模型改进推广}
+\begin{enumerate}
+  \item 【改进1：改什么 + 为什么能提升】
+  \item 【改进2】
+\end{enumerate}
+
+% =====================================================================
+% 附：TikZ 画总体流程图（小型示例，需 \usepackage{tikz}）
+% =====================================================================
+% \begin{tikzpicture}[node distance=1.2cm, every node/.style={draw, rounded corners,
+%     minimum width=2.6cm, minimum height=0.8cm, font=\small}]
+%   \node (a) {数据预处理};
+%   \node (b) [right of=a, xshift=2.5cm] {模型建立};
+%   \node (c) [right of=b, xshift=2.5cm] {模型求解};
+%   \node (d) [below of=b] {灵敏度分析};
+%   \draw[->] (a)--(b); \draw[->] (b)--(c); \draw[->] (b)--(d); \draw[->] (d)--(b);
+% \end{tikzpicture}

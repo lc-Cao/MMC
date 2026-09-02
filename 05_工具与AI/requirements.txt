@@ -1,0 +1,12 @@
+# 建模 Python 依赖清单 —— 国赛备赛环境
+# 安装：pip install -r requirements.txt
+# 说明：pulp 仅优化线性规划用；openpyxl 用于读写 Excel(.xlsx)
+numpy
+scipy
+pandas
+scikit-learn
+statsmodels
+matplotlib
+seaborn
+pulp
+openpyxl
